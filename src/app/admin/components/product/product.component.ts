@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
+import { Product } from 'src/app/contracts/product';
 import { HttpClientService } from 'src/app/services/common/httpClient.service';
 @Component({
   selector: 'app-product',
@@ -13,7 +14,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 ngOnInit(): void {
   this.showSpinner(SpinnerType.BallAtom);
-  this.httpClientService.get({
+  this.httpClientService.get<Product[]>({
     controller :"products"}).subscribe(data=> console.log(data));
     
   this.httpClientService.post({
