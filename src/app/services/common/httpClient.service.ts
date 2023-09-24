@@ -18,7 +18,14 @@ import { Observable } from 'rxjs';
      url =`${this.url(requestParameter)}${id ? `/${id}` : ""}`;
      return this.hhtpClient.get<T>(url , {headers:requestParameter.headers})
    }
-  post(){}  
+  post<T>(requestParameter:Partial<RequestParameters>, body:Partial<T>) :Observable<T> {
+    let url:string ="";
+    if(requestParameter.fullEndPoint)
+        url=requestParameter.fullEndPoint
+    else
+        url=`${this.url(requestParameter)}`
+    return this.hhtpClient.post<T>(url,body,{headers:requestParameter.headers})
+  }  
    put(){}
   delete(){}
  }
