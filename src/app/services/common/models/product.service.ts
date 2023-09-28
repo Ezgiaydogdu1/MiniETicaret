@@ -30,17 +30,17 @@ export class ProductService {
               message += `${_v}`;
             });
           });
-          errorCallBack(message);
+          errorCallBack?.(message);
          
         }
       );
   }
  async read(successCallBack?:()=>void,errorCallBack?:(errorMessage:string)=>void):Promise<List_Product[]>{
-    const promiseData:Promise<List_Product[]>= this.httpClientService.get<List_Product[]>({
+    const promiseData :Promise<List_Product[]>= this.httpClientService.get<List_Product[]>({
       controller:"products"
     }).toPromise();
     promiseData.then(d=>successCallBack)
-    .catch((errorResponse:HttpErrorResponse)=>errorCallBack(errorResponse.))
+    .catch((errorResponse:HttpErrorResponse)=>errorCallBack?.(errorResponse.message))
     return await promiseData;
   }
 }
