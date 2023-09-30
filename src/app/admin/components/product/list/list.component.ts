@@ -12,22 +12,23 @@ import { ProductService } from 'src/app/services/common/models/product.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent extends BaseComponent implements OnInit {
-  constructor(private productService:ProductService, spinner:NgxSpinnerService,private aletifyService:AlertifyService) {
+  constructor(private productService:ProductService, spinner:NgxSpinnerService,private alertifyService: AlertifyService) {
     super(spinner)
    }
   displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate', 'updatedDate'];
   dataSource: MatTableDataSource<List_Product> = new MatTableDataSource<List_Product>();
  
 
-  ngOnInit(): void {
-    this.showSpinner(SpinnerType.BallAtom);
-    this.productService.read(()=>this.hideSpinner(SpinnerType.BallAtom),errorMessage =>
-    this.aletifyService.message(errorMessage,{
+  async ngOnInit(): Promise<void> {
+   this.showSpinner(SpinnerType.BallAtom);
+   let allProducts : List_Product[] =await this.productService.read(()=>this.hideSpinner(SpinnerType.BallAtom),
+   errorMessage =>
+    this.alertifyService.message(errorMessage,{
       dismissOthers:true,
       messageType:MessageType.Error,
       position:Position.BottomCenter
 
     }))
-   
+   this.dataSource=new MatTableDataSource<List_Product>(allProducts);
   }
 }
