@@ -35,14 +35,27 @@ export class ProductService {
         }
       );
   }
-  async read(successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void): Promise<List_Product[]> {
-    const promiseData: Promise<List_Product[]> = this.httpClientService.get<List_Product[]>({
-      controller: "products"
-    }).toPromise();
-  
-    promiseData.then(d => successCallBack?.()).catch((errorResponse: HttpErrorResponse) => errorCallBack?.(errorResponse.message));
-  
-    return await promiseData;
-  }
+  async read(successCallBack: () => void, errorCallBack?: (errorMessage: string) => void): Promise<List_Product[]> {
+    try {
+        const promiseData: List_Product[] | undefined = await this.httpClientService.get<List_Product[]>({
+            controller: "products"
+        }).toPromise();
+    
+        if (promiseData !== undefined) {
+            successCallBack?.();
+            return promiseData;
+        } else {
+            // Handle the case where promiseData is undefined
+            throw new Error("Data not available"); // You can throw an error or return a default value here
+        }
+    } catch (errorResponse) {
+        errorCallBack?.(errorResponse.message);
+        return []; // or any other appropriate default value
+    }
+}
+
   
 }
+
+  
+
