@@ -49,7 +49,7 @@ export class ProductService {
             throw new Error("Data not available"); // You can throw an error or return a default value here
         }
     } catch (errorResponse) {
-        errorCallBack?.(errorResponse.message);
+      //  errorCallBack?.(errorResponse.message);
         return []; // or any other appropriate default value
     }
 }
