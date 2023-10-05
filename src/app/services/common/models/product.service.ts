@@ -45,13 +45,12 @@ export class ProductService {
             successCallBack?.();
             return promiseData;
         } else {
-            // Handle the case where promiseData is undefined
-            throw new Error("Data not available"); // You can throw an error or return a default value here
+           
+            throw new Error("Data not available"); 
         }
     } catch (errorResponse) {
-      //  errorCallBack?.(errorResponse.message);
-        return []; // or any other appropriate default value
-    }
+      
+        return [];     }
 }
 
   
